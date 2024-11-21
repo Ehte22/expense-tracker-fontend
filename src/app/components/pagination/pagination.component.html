@@ -1,0 +1,14 @@
+<div class="pagination justify-content-end me-5">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+        </li>
+        <li class="page-item" *ngFor="let page of pages; let i = index">
+            <button class="page-link" (click)="goToPage(page)"
+                [ngClass]="{'bg-primary text-light': page === +currentPage}">{{ page }}</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link" (click)="nextPage()" [disabled]="currentPage === pages.length">Next</button>
+        </li>
+    </ul>
+</div>

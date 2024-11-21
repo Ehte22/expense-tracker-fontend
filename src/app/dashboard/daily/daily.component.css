@@ -1,0 +1,21 @@
+.h-full {
+    height: 100vh;
+}
+
+@media (min-width: 700px) {
+    #chartCard {
+        width: 80% !important;
+    }
+}
+
+@media (min-width: 992px) {
+    #chartCard {
+        width: 70% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    #chartCard {
+        width: 60% !important;
+    }
+}

@@ -1,0 +1,91 @@
+<app-header></app-header>
+
+<div class="container">
+    <div class="mt-5 d-flex justify-content-between">
+        <div class="search-container">
+            <input type="search" (input)="handleChange($event)" class="form-control me-3" placeholder="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                +Add Type
+            </button>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3>Sort By Date</h3>
+        <div class="dropdown">
+            <button class=" dropdown-toggle dropdown_btn no-arrow fs-4" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown">
+                <i class="fa-solid fa-sort text-primary"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="dropdown-item" (click)="sortByDate('asc')">Ascending</li>
+                <li class="dropdown-item" (click)="sortByDate('desc')">Descending</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col">
+            <div class="table-responsive card shadow">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of getAllType; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.type | titlecase}}</td>
+                            <td>{{item.createdAt | date}}</td>
+                            <td>
+                                <button class="btn btn-outline-warning btn-sm mx-2" (click)="editType(item)"
+                                    data-bs-toggle="modal" data-bs-target="#addModal">
+                                    Edit
+                                </button>
+                                <button *ngIf="item._id" class="btn btn-outline-danger btn-sm mx-2"
+                                    (click)="deleteType(item._id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-pagination [currentPage]="currentPage" [limit]="limit" [total]="total"
+                    (pageChange)="onPageChange($event)"></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- type modal start -->
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add type</h5>
+                <button (click)="typeForm.reset()" type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form [formGroup]="typeForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                    <div>
+                        <input [ngClass]="{'is-invalid': typeForm.get('type')?.touched && typeForm.get('type')?.errors}"
+                            type="text" formControlName="type" class="form-control" placeholder="Add Type...">
+                        <small class="invalid-feedback">
+                            *Type is a required field
+                        </small>
+                    </div>
+                    <button type="submit" data-bs-dismiss="modal" class=" btn btn-primary mt-3 w-100">
+                        Add type
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

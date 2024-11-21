@@ -1,0 +1,117 @@
+<app-header></app-header>
+
+<div class="container">
+    <div class="d-flex justify-content-between mt-5">
+        <div class="search-container">
+            <input type="search" (input)="handleChange($event)" class="form-control me-3" placeholder="Search by type">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="">
+            <button [routerLink]="['create']" routerLinkActive="router-link-active" class="btn btn-primary">+Add
+                Expense</button>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-lg-4 col-sm-6">
+            <h3>Sort By Date</h3>
+            <div class="dropdown">
+                <button class=" dropdown-toggle dropdown_btn no-arrow fs-4" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-sort text-primary"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item" (click)="sortByDate('asc')">Ascending</li>
+                    <li class="dropdown-item" (click)="sortByDate('desc')">Descending</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6">
+            <h3>Filter By Status</h3>
+            <div class="d-flex gap-3">
+                <div>
+                    <input (input)="handleChange($event)" type="radio" id="all" name="status" value="all"
+                        class="form-check-input me-2" checked>
+                    <label for="all" class="form-label">All</label>
+                </div>
+                <div>
+                    <input (input)="handleChange($event)" type="radio" id="active" name="status" value="null"
+                        class="form-check-input me-2">
+                    <label for="active" class="form-label">Active</label>
+                </div>
+                <div>
+                    <input (input)="handleChange($event)" type="radio" id="inactive" name="status" value="date"
+                        class="form-check-input me-2">
+                    <label for="inactive" class="form-label">InActive</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+
+            <div class="table-responsive card shadow">
+                <table class="table">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of getAllExpenses; let i = index"
+                            [ngClass]="{'table-danger': item.deletedAt !== null }">
+                            <td>{{i+ 1}}</td>
+                            <td>{{item.type | titlecase}}</td>
+                            <td>{{item.title | titlecase}}</td>
+                            <td>{{item.desc}}</td>
+                            <td>{{item.amount}}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class=" dropdown-toggle dropdown_btn no-arrow" type="button"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item">
+                                            <button *ngIf="item._id" (click)="viewExpense(item._id)"
+                                                class="border-0 bg-transparent">
+                                                <i class="fa-solid fa-eye text-success"></i>
+                                                <span class="ms-2">View</span>
+                                            </button>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <button *ngIf="item._id" class="border-0 bg-transparent"
+                                                (click)="editExpense(item._id)">
+                                                <i class="fa-solid fa-pen-to-square text-primary"></i>
+                                                <span class="ms-2">Edit</span>
+                                            </button>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <button class="border-0 bg-transparent">
+                                                <i class="fa-solid fa-trash text-danger"></i>
+                                                <span *ngIf="item._id" class="ms-2"
+                                                    (click)="deleteExpense(item._id)">Delete</span>
+                                            </button>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <app-pagination [currentPage]="currentPage" [limit]="limit" [total]="total"
+                    (pageChange)="onPageChange($event)">
+                </app-pagination>
+            </div>
+        </div>
+    </div>
+</div>

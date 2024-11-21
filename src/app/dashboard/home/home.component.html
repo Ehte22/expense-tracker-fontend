@@ -1,0 +1,35 @@
+<app-header></app-header>
+
+<div class="container">
+
+    <div class="d-flex justify-content-end mt-5">
+        <button (click)="monthlyStatistics()" type="button" class="btn btn-outline-primary btn-sm">Statistics</button>
+        <select class="form-select w-200px mx-2" (change)="handleChange($event)">
+            <option *ngFor="let item of years" [value]="item">{{item}}</option>
+        </select>
+    </div>
+
+    <div class="table-responsive my-2">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Total Expense</th>
+                    <th>Monthly Statistics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of monthlyExpenses">
+                    <td>{{item.month}}</td>
+                    <td> {{item.totalAmount}}</td>
+                    <td>
+                        <button *ngIf="item._id" (click)="expense(item._id)"
+                            class="btn btn-outline-primary btn-sm">view</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
