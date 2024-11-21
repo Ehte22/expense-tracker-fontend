@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthStateType } from '../../models/auth';
 import { signIn, signInWithGoogle } from '../../store/actions/auth.actions';
-import { environment } from '../../../environment/enrironement';
+import { environment } from '../../../environment/environment';
 declare const google: any
 
 @Component({
