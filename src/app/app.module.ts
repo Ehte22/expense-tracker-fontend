@@ -19,6 +19,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { environment } from '../environment/environment';
 
 
 @NgModule({
@@ -54,7 +55,7 @@ import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider("195321382919-9douqjni4u680jkitrc9ri8o6nvuvt8m.apps.googleusercontent.com")
+            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID)
           }
         ]
       }
