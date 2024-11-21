@@ -8,7 +8,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class TypeService {
-  baseUrl: string = environment.BACKEND_URL = 'type'
+  baseUrl: string = environment.BACKEND_URL + 'type'
 
   constructor(
     private http: HttpClient

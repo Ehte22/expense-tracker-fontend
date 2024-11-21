@@ -8,7 +8,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class ExpenseService {
-  baseUrl: string = environment.BACKEND_URL = 'expense'
+  baseUrl: string = environment.BACKEND_URL + 'expense'
 
   constructor(
     private http: HttpClient

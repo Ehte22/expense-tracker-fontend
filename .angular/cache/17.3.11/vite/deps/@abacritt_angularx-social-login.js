@@ -73,10 +73,10 @@ var GoogleLoginProvider = class _GoogleLoginProvider extends BaseLoginProvider {
     this._socialUser.pipe(skip(1)).subscribe(this.changeUser);
     this._accessToken.pipe(skip(1)).subscribe(this._receivedAccessToken);
   }
-  initialize(autoLogin, lang) {
+  initialize(autoLogin) {
     return new Promise((resolve, reject) => {
       try {
-        this.loadScript(_GoogleLoginProvider.PROVIDER_ID, this.getGoogleLoginScriptSrc(lang), () => {
+        this.loadScript(_GoogleLoginProvider.PROVIDER_ID, "https://accounts.google.com/gsi/client", () => {
           google.accounts.id.initialize({
             client_id: this.clientId,
             auto_select: autoLogin,
@@ -87,8 +87,7 @@ var GoogleLoginProvider = class _GoogleLoginProvider extends BaseLoginProvider {
               this._socialUser.next(socialUser);
             },
             prompt_parent_id: this.initOptions?.prompt_parent_id,
-            itp_support: this.initOptions.oneTapEnabled,
-            use_fedcm_for_prompt: this.initOptions.oneTapEnabled
+            itp_support: this.initOptions.oneTapEnabled
           });
           if (this.initOptions.oneTapEnabled) {
             this._socialUser.pipe(filter((user) => user === null)).subscribe(() => google.accounts.id.prompt(console.debug));
@@ -197,9 +196,6 @@ var GoogleLoginProvider = class _GoogleLoginProvider extends BaseLoginProvider {
     }).join(""));
     return JSON.parse(jsonPayload);
   }
-  getGoogleLoginScriptSrc(lang) {
-    return lang ? `https://accounts.google.com/gsi/client?hl=${lang}` : "https://accounts.google.com/gsi/client";
-  }
 };
 var SocialAuthService = class _SocialAuthService {
   static {
@@ -233,7 +229,6 @@ var SocialAuthService = class _SocialAuthService {
     this._injector = _injector;
     this.providers = /* @__PURE__ */ new Map();
     this.autoLogin = false;
-    this.lang = "";
     this._user = null;
     this._authState = new ReplaySubject(1);
     this.initialized = false;
@@ -248,14 +243,13 @@ var SocialAuthService = class _SocialAuthService {
   }
   initialize(config) {
     this.autoLogin = config.autoLogin !== void 0 ? config.autoLogin : false;
-    this.lang = config.lang !== void 0 ? config.lang : "";
     const {
       onError = console.error
     } = config;
     config.providers.forEach((item) => {
       this.providers.set(item.id, "prototype" in item.provider ? this._injector.get(item.provider) : item.provider);
     });
-    Promise.all(Array.from(this.providers.values()).map((provider) => provider.initialize(this.autoLogin, this.lang))).then(() => {
+    Promise.all(Array.from(this.providers.values()).map((provider) => provider.initialize(this.autoLogin))).then(() => {
       if (this.autoLogin) {
         const loginStatusPromises = [];
         let loggedIn = false;
