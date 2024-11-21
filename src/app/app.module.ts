@@ -18,8 +18,6 @@ import { ExpenseEffect } from './store/effects/expense.effects';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
-import { environment } from '../environment/environment';
 
 
 @NgModule({
@@ -47,20 +45,7 @@ import { environment } from '../environment/environment';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     EffectsModule.forRoot([AuthEffects, TypeEffect, ExpenseEffect]),
   ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false, // Set to true for auto login after reload
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID)
-          }
-        ]
-      }
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
